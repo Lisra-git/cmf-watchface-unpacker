@@ -129,7 +129,10 @@ def main():
 
 	assetStoreLenght = watchface[0x1c:0x1f]
 	assetStoreLenght = int.from_bytes(assetStoreLenght, byteorder='little')
-
+	#export asset Store to a file
+	assetStore = watchface[subwidgetLenght:subwidgetLenght + assetStoreLenght]
+	assetStoreFile = open("assetStore.bin", 'wb')
+	assetStoreFile.write(assetStore)
 	curLenAsset = 0
 	while curLenAsset < assetStoreLenght:
 		assetLenght = watchface[subwidgetLenght + curLenAsset + 4:subwidgetLenght + curLenAsset + 8]
