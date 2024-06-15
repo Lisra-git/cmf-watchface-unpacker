@@ -126,12 +126,19 @@ def main():
 	subwidgetLenght = watchface[0x25:0x27]
 	subwidgetLenght = int.from_bytes(subwidgetLenght, byteorder='little')
 	subwidgetLenght = subwidgetLenght + 0x27
+	#check if dir extracted exist
+	if not os.path.exists('extracted'):
+		os.makedirs('extracted')
+	#extract subwidget to a file 
+	subwidget = watchface[0x27:subwidgetLenght]
+	subwidgetFile = open("extracted/FunctionStore.bin", 'wb')
+	subwidgetFile.write(subwidget)
 
 	assetStoreLenght = watchface[0x1c:0x1f]
 	assetStoreLenght = int.from_bytes(assetStoreLenght, byteorder='little')
 	#export asset Store to a file
 	assetStore = watchface[subwidgetLenght:subwidgetLenght + assetStoreLenght]
-	assetStoreFile = open("assetStore.bin", 'wb')
+	assetStoreFile = open("extracted/assetStore.bin", 'wb')
 	assetStoreFile.write(assetStore)
 	curLenAsset = 0
 	while curLenAsset < assetStoreLenght:
